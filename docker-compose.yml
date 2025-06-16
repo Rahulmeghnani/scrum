@@ -3,7 +3,7 @@ version: '3'
 services:
   scrum-postgres:
     image: postgres:9.6-alpine
-    container_name: scrum-postgres-v2
+    container_name: scrum-postgres-v2 old-scrum-postgres
     ports:
       - "5433:5432"
     environment:
