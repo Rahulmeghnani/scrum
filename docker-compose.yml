@@ -1,49 +1,38 @@
-
 version: '3'
 
-
 services:
-
- 
   scrum-postgres:
-    image: "postgres:9.6-alpine"
+    image: postgres:9.6-alpine
     container_name: scrum-postgres-v2
-
-    #Volume mounted for database for the storage
-    volumes:
-      - scrum-data:/var/lib/postgresql/data
     ports:
-      - 5432:5432 
-
-    
+      - "5433:5432"
     environment:
       - POSTGRES_DB=scrum
       - POSTGRES_USER=scrum
       - POSTGRES_PASSWORD=scrum
+    volumes:
+      - scrum-data:/var/lib/postgresql/data
 
   scrum-app:
     build: ./scrum-app
     container_name: scrum-app
-
     environment:
       - DB_SERVER=scrum-postgres
       - POSTGRES_DB=scrum
       - POSTGRES_USER=scrum
       - POSTGRES_PASSWORD=scrum
     ports:
-      - 8080:8080 
-    links:
+      - "8081:8080"
+    depends_on:
       - scrum-postgres
 
- 
   scrum-ui:
     build: ./scrum-ui
     container_name: scrum-ui
     ports:
-      - 4200:80
-    links:
+      - "4200:80"
+    depends_on:
       - scrum-app
-
 
 volumes:
   scrum-data:
